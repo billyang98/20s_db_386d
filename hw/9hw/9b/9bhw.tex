@@ -1,0 +1,73 @@
+\documentclass[12pt, letterpaper, fleqn]{article}
+\usepackage[letterpaper, margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\graphicspath{ {.} }
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{cancel}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\setlength\parindent{0pt}
+\def\fullouterjoin{\mathbin{\ojoin\mkern0mu\bowtie\mkern3mu\ojoin}}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+%\rhead{Bill Yang}
+%\renewcommand{\headrulewidth}{0pt}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+%    \hbox to 5.78in { {\bf M328K Number Theory} \hfill #2 }
+%       \vspace{4mm}
+%       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+%       \vspace{2mm}
+%       \hbox to 5.78in { {\it #3 \hfill #4} }
+    \hbox to 5.78in { { Bill Yang} \hfill {Due: #2} }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {#3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\ho}[5]{\handout{#1}{#2}{#3}{Instructor: #4}{Homework #1}}
+
+\begin{document}
+  \ho{9b}{4/17/20}{CS386D Database Systems}{Daniel Miranker} \\
+
+  \textbf{1.} 
+  The rankings are not based on a) polls of IT managers, but is determined by b)
+  using google searches, social media mentions, job listings, etc. to compute
+  relative popularity scores that are used for the ranks.
+
+  \textbf{2.} 
+  It seems that IMS is not an important technology with respect to how much it
+  is used. It is a Navigational DBMS, which only has 2 database management
+  systems anyway, and Navigational DBMS are so small they do not even show up in
+  a lot of the Rankings by Database Model. Navigational DBMS popularity scores are less than
+  $.2\%$ of the total scores of all systems. It seems that not many people are
+  still using it, and similar to COBOL or Fortran, is likely only used for
+  legacy applications that are still necessary. IMS is likely on its last
+  breath. Even though of the 355 DBMS listed on the rankings it places 102, it
+  made a downward trend from the 2019 rankings, in which it was ranked 93. I
+  believe it will continue to trend downwards as newer systems such as
+  Relational Systems, RDF stores, etc. like Apache Jena - TDB or 4D pass IMS on
+  the rankings.
+\end{document}

@@ -1,0 +1,147 @@
+\documentclass[12pt, letterpaper, fleqn]{article}
+\usepackage[letterpaper, margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\graphicspath{ {.} }
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{hyperref}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\setlength\parindent{0pt}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+%\rhead{Bill Yang}
+%\renewcommand{\headrulewidth}{0pt}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+%    \hbox to 5.78in { {\bf M328K Number Theory} \hfill #2 }
+%       \vspace{4mm}
+%       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+%       \vspace{2mm}
+%       \hbox to 5.78in { {\it #3 \hfill #4} }
+    \hbox to 5.78in { { Bill Yang} \hfill {Due: #2} }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {#3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\ho}[5]{\handout{#1}{#2}{#3}{Instructor: #4}{Homework #1}}
+
+\begin{document}
+  \ho{1}{2/5/19}{CS386D Database Systems}{Daniel Miranker} \\
+  
+  \textbf{2.4.1} \\
+
+  \textbf{b} \\
+  Which manufacturers make laptops with a hard disk of at least 100GB?\\
+
+  Query:  
+  \begin{verbatim}
+    select maker from Product
+      where model in
+      (
+        select distinct model from Laptop
+            where hd >= 100
+      );
+  \end{verbatim}
+
+  Response:
+  \begin{verbatim}
+  E
+  A
+  B
+  F
+  G
+  \end{verbatim}
+  
+  \textbf{e} \\
+  Find those manufacturers that sell Laptops, but not PC’s. \\
+  
+  Query:
+  \begin{verbatim}
+    select distinct maker FROM Product
+      where maker in 
+      (
+          select maker from Product 
+              where model in (select model from Laptop)
+      )
+      and 
+      maker not in 
+      (
+          select maker from Product 
+              where model in (select model from PC)
+      );
+  \end{verbatim}
+
+  Response:
+  \begin{verbatim}
+  F
+  G
+  \end{verbatim}
+
+  \textbf{g} \\
+  Find those pairs of PC models that have both the same speed and RAM. A pair
+  should be listed only once; e.g., list (i, j) but not (j, i).\\
+  
+  Query:
+  \begin{verbatim}
+    select distinct pc1.model, pc2.model 
+      from PC pc1, PC pc2 
+      where pc1.speed = pc2.speed
+          and pc1.ram = pc2.ram
+          and pc1.model != pc2.model
+          and pc1.model < pc2.model;
+  \end{verbatim}
+
+  Response:
+  \begin{verbatim}
+    1004,1012
+  \end{verbatim}
+
+  \textbf{i} \\
+  Find the manufacturer(s) of the computer (PC or laptop) with the highest
+  available speed.\\
+
+  Query:
+  \begin{verbatim}
+  select maker
+    from Product
+    WHERE model =
+        (
+            select top 1 model
+                from
+                (
+                    select model, speed from PC
+                    UNION
+                    select model, speed from Laptop
+                ) as all_models
+                order by speed desc
+        );
+  \end{verbatim}
+
+  Response:
+  \begin{verbatim}
+  A
+  \end{verbatim}
+
+\end{document}

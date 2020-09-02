@@ -1,0 +1,527 @@
+\documentclass[12pt, letterpaper, fleqn]{article}
+\usepackage[letterpaper, margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\graphicspath{ {.} }
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{hyperref}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\setlength\parindent{0pt}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+%\rhead{Bill Yang}
+%\renewcommand{\headrulewidth}{0pt}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+%    \hbox to 5.78in { {\bf M328K Number Theory} \hfill #2 }
+%       \vspace{4mm}
+%       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+%       \vspace{2mm}
+%       \hbox to 5.78in { {\it #3 \hfill #4} }
+    \hbox to 5.78in { { Bill Yang} \hfill {Due: #2} }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {#3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\ho}[5]{\handout{#1}{#2}{#3}{Instructor: #4}{Homework #1}}
+
+\begin{document}
+  \ho{3}{2/19/19}{CS386D Database Systems}{Daniel Miranker} \\
+
+  \section{Part A}
+
+  \textbf{14.7.1}\\
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    Speed        & Bitmap \\ \hline
+    1.42         &  001000000000\\
+    1.86         &  000000000010\\
+    2.00         &  000000001000\\
+    2.10         &  010000000000\\
+    2.20         &  000000110000\\
+    2.66         &  100000000000\\
+    2.80         &  000100000101\\
+    3.20         &  000011000000\\
+    \hline
+  \end{tabular}
+  \end{center}
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    Speed        & Bitmap \\ \hline 
+    1.42         &  1010\\
+    1.86         &  11101011\\
+    2.00         &  11101001\\
+    2.10         &  01\\
+    2.20         &  11011100\\
+    2.66         &  00\\
+    2.80         &  101111010101\\
+    3.20         &  11010000\\
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    Ram          & Bitmap \\ \hline
+    512          &  011010000000\\
+    1024         &  100101101001\\
+    2048         &  000000010110\\
+    \hline
+  \end{tabular}
+  \end{center}
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    Ram          & Bitmap \\ \hline
+    512          &  010001\\
+    1024         &  0010100100011010\\
+    2048         &  1101110100\\
+    \hline
+  \end{tabular}
+  \end{center}
+
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    HD           & Bitmap \\ \hline
+    80           &  001000000000\\
+    160          &  000000000011\\
+    200          &  000000100000\\
+    250          &  110110011000\\
+    300          &  000000000100\\
+    320          &  000001000000\\
+    \hline
+  \end{tabular}
+  \end{center}
+  \begin{center}
+  \begin{tabular}{ |c | c| }
+    \hline
+    HD           & Bitmap \\ \hline
+    80           &  1010\\
+    160          &  1110101000\\
+    200          &  110110\\
+    250          &  00000100101000\\
+    300          &  11101001\\
+    320          &  110110\\
+    \hline
+  \end{tabular}
+  \end{center}
+
+
+  \textbf{14.7.3a}\\
+  $\frac{1000000m}{8}$ bytes.
+  $m$ bits per record. $1000000m$ total bits, $\frac{1000000m}{8}$ bytes.\\
+  
+  \section{Part B}
+  \textbf{1.}\\
+  a) I could go all the way to y without getting a false positive. \\ 
+  b) I would expect the same results. \\
+
+  \textbf{2.}\\
+  a) A bit is $0$ with probability $(1 - \frac{1}{50})^3$, so the probability
+  that we get a hit on all $3$ hashes is $(1 - (1 - \frac{1}{50})^3)^3 =
+  .00020338$. \\
+  b) A single bit is $0$ with probability $(1 - \frac{1}{50})^{3 * 20}$. The the
+  probability that we get a false positive is $(1 - (1 - \frac{1}{50})^{3 *
+  20})^3 =.3466 $\\
+  c) False. Definitely not there.\\\\
+
+  \textbf{3.}\\
+  Given $m,n$, to minimize the probability of a false positive, we use $k = \ln
+  2 \times m/n$. Since $m=50$ and $k=3$, we have $3 = \ln 2 \times 50/n$.
+  Solving for $n$, we get $n = 50 /\frac{3}{\ln 2} = 11.55 \approx 12$ keys.
+
+  \section{Part C}
+
+  \subsection{1.}
+  \textbf{5.1.1} \\
+  $\pi_{speed}(PC) = $ \\
+  \textit{SET} \\\\
+  \begin{tabular} { |c| }
+    \hline
+    speed\\ \hline
+    2.66 \\
+    2.10 \\
+    1.42 \\
+    2.80 \\
+    3.20 \\
+    2.20 \\
+    2.00 \\
+    1.86 \\
+    3.06  \\
+    \hline
+  \end{tabular} \\
+  Average Value $= 2.36667$ \\\\
+
+  \textit{BAG} \\\\
+  \begin{tabular} { |c|}
+    \hline
+    speed\\ \hline
+    2.66 \\
+    2.10 \\
+    1.42 \\
+    2.80 \\
+    3.20 \\
+    3.20 \\
+    2.20 \\
+    2.20 \\
+    2.00 \\
+    2.80 \\
+    1.86 \\
+    2.80 \\
+    3.06  \\
+    \hline
+  \end{tabular} \\
+  Average Value $= 2.48462$ \\\\
+
+  \textbf{5.1.2} \\
+  $\pi_{hd}(PC) = $ \\
+  \textit{SET}\\\\
+  \begin{tabular} { | c|}
+    \hline
+    hd\\ \hline
+    250 \\
+    80 \\
+    260 \\
+    320 \\
+    200 \\
+    300 \\
+    160 \\
+    \hline
+  \end{tabular} \\
+  Average Value $= 224.29$ \\\\
+
+  \textit{BAG} \\\\
+  \begin{tabular} { |c|}
+    \hline
+    hd\\ \hline
+    250 \\
+    250 \\
+    80 \\
+    250 \\
+    260 \\
+    320 \\
+    200 \\
+    250 \\
+    250 \\
+    300 \\
+    160 \\
+    160 \\
+    80  \\
+    \hline
+  \end{tabular} \\
+  Average Value $= 216.15384$\\\\
+
+  \textbf{16.2.2 b, c} \\
+  b) \\
+  Set difference\\\\
+  \begin{tabular} {|c c|}
+    \hline
+    Relation R & \\ \hline
+    Attribute A & Attribute B \\ \hline
+    1  &  3 \\
+    2  &  5 \\
+    4  &  1 \\
+    \hline
+  \end{tabular}
+  \begin{tabular} {| c c |}
+    \hline
+    Relation S & \\ \hline
+    Attribute A & Attribute B \\  \hline
+    1  &  2 \\
+    2  &  5 \\
+    5  &  2 \\ \hline
+  \end{tabular} \\
+  
+  \begin{tabular} {| c |}
+    \hline
+    $\pi_A (R - S)$   \\ \hline
+    Attribute A  \\ \hline
+    1  \\
+    4  \\ \hline
+  \end{tabular} 
+
+  \begin{tabular} {| c |}
+    \hline
+    $\pi_A (R) - \pi_A (S)$  \\ \hline
+    Attribute A  \\ \hline
+    4  \\ \hline
+  \end{tabular} \\
+
+  Bag difference\\\\
+  \begin{tabular} {|c c|}
+    \hline
+    Relation R & \\ \hline
+    Attribute A & Attribute B \\ \hline
+    1  &  3 \\
+    2  &  5 \\
+    4  &  1 \\
+    1  &  3 \\ 
+    5  &  1 \\
+    \hline
+  \end{tabular}
+  \begin{tabular} {| c c |}
+    \hline
+    Relation S & \\ \hline
+    Attribute A & Attribute B \\  \hline
+    1  &  2 \\
+    2  &  5 \\
+    5  &  2 \\
+    1  &  3 \\
+    1  &  2 \\ \hline
+  \end{tabular} \\
+  
+  \begin{tabular} {| c |}
+    \hline
+    $\pi_A (R - S)$   \\ \hline
+    Attribute A  \\ \hline
+    4  \\
+    1  \\
+    5  \\ \hline
+  \end{tabular} 
+
+  \begin{tabular} {| c |}
+    \hline
+    $\pi_A (R) - \pi_A (S)$  \\ \hline
+    Attribute A  \\ \hline
+    4  \\ \hline
+  \end{tabular} \\
+  \\
+
+  c) \\
+  \begin{tabular} {|c c|}
+    \hline
+    Relation R & \\ \hline
+    Attribute A & Attribute B \\ \hline
+    1  &  3 \\
+    1  &  5 \\
+    1  &  3 \\
+    \hline
+  \end{tabular}
+  
+  \begin{tabular} {| c |}
+    \hline
+    $\delta (\pi_A (R) )$   \\ \hline
+    Attribute A  \\ \hline
+    1  \\ \hline
+  \end{tabular} 
+
+  \begin{tabular} {| c |}
+    \hline
+    $\pi_A (\delta(R) )$  \\ \hline
+    Attribute A  \\ \hline
+    1  \\ 
+    1  \\ \hline
+  \end{tabular} \\
+
+
+  \subsection{2.}
+
+  \textbf{i.}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 = 101;
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c }
+    key & name & joinKey1 \\
+    \hline 
+    1	& Andrea	& 101
+  \end{tabular} \\\\
+
+  \textbf{ii.}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 != 101;
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c }
+    key & name & joinKey1 \\
+    \hline 
+    5	& John	& 106
+  \end{tabular} \\\\
+
+  \textbf{iii.}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 is null;
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c }
+    key & name & joinKey1 \\
+    \hline 
+    2 &	David &	NULL \\
+    3	& David	& NULL \\
+    4	& Dan	& NULL
+  \end{tabular} \\\\
+
+  \textbf{iv.}\\
+  \begin{verbatim}
+    select [name], joinKey1 from HW3_R;
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c }
+    name & joinKey1 \\
+    \hline 
+    Andrea & 	101 \\
+    David	& NULL \\
+    David	& NULL \\
+    Dan	& NULL \\
+    John	& 106
+  \end{tabular} \\\\
+
+  \textbf{v.}\\
+  \begin{verbatim}
+    select joinKey1 from HW3_R;
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c }
+    joinKey1 \\
+    \hline 
+    101 \\
+    NULL \\
+    NULL \\
+    NULL \\
+    106 \\
+  \end{tabular} \\\\
+
+  \textbf{vi.}\\
+  \begin{verbatim}
+    select * from HW3_R join HW3_S on joinKey1 = joinKey2;
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R cross join HW3_S where joinKey1 = joinKey2
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R full outer join HW3_S on joinKey1 = joinKey2 where
+      joinKey1 = joinKey2
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c c c c }
+    key & name & joinKey1 & key & romanNumeral & joinKey2 \\
+    \hline 
+    1	& Andrea & 101 &	6	& V	& 101
+  \end{tabular} \\\\
+
+  \textbf{vii.}\\
+  \begin{verbatim}
+    select * from HW3_R join HW3_S on joinKey1 != joinKey2
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R cross join HW3_S where joinKey1 != joinKey2
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R full outer join HW3_S on joinKey1 != joinKey2 where
+      joinKey1 != joinKey2
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c c c c }
+    key & name & joinKey1 & key & romanNumeral & joinKey2 \\
+    \hline 
+    5	& John	& 106	& 6&	V	& 101 \\
+    1	& Andrea &	101	&8&	L	& 105 \\
+    5	& John	& 106	& 8	& L	& 105 
+  \end{tabular} \\\\
+
+  \textbf{viii.}\\
+  \begin{verbatim}
+    select * from HW3_R full outer join HW3_S on joinKey1 = joinKey2
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R right outer join HW3_S on joinKey1 = joinKey2
+    UNION
+    select * from HW3_R left outer join HW3_S on joinKey1 = joinKey2
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c c c c }
+    key & name & joinKey1 & key & romanNumeral & joinKey2 \\
+    \hline 
+    1	&Andrea	& 101	&6	&V	& 101 \\
+    2	& David	& NULL	&NULL	&NULL&	NULL \\ 
+    3	& David	& NULL	&NULL	&NULL	& NULL \\
+    4	&Dan	& NULL	&NULL	& NULL	&NULL \\
+    5	& John	& 106	&NULL	&NULL	& NULL \\
+    NULL	& NULL &	NULL &	7	&X	&NULL \\
+    NULL & 	NULL& 	NULL&	8	&L	&105 
+  \end{tabular} \\\\
+
+  \textbf{ix.}\\
+  \begin{verbatim}
+    select * from HW3_R left outer join HW3_S on joinKey1=joinKey2
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R full outer join HW3_S on joinKey1=joinKey2 where not
+      (HW3_R.[key] is null and [name] is null and joinKey1 is null)
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c c c c }
+    key & name & joinKey1 & key & romanNumeral & joinKey2 \\
+    \hline 
+    1	&Andrea	&101	&6	&V	&101 \\
+    2	&David	&NULL	&NULL	&NULL	&NULL \\
+    3	&David	&NULL	&NULL	&NULL	&NULL \\
+    4	&Dan	&NULL	&NULL	&NULL	&NULL \\
+    5	&John	&106	&NULL	&NULL	&NULL 
+  \end{tabular} \\\\
+
+  \textbf{x.}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 in (select joinKey2 from HW3_S)
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 in (select joinKey2 from HW3_S where
+    joinKey1 = joinKey2)
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c}
+    key & name & joinKey1 \\
+    \hline 
+    1	&Andrea	&101
+  \end{tabular} \\\\
+
+  \textbf{xi.}\\
+  \begin{verbatim}
+    select * from HW3_R where not exists (select joinKey2 from HW3_S where
+      joinKey1 = joinKey2)
+  \end{verbatim}\\
+  \begin{verbatim}
+    select * from HW3_R where joinKey1 in (select joinKey1 from HW3_R except
+      select joinKey2 from HW3_S) or joinKey1 is null
+  \end{verbatim}\\
+
+  \begin{tabular}{ c c c}
+    key & name & joinKey1 \\
+    \hline 
+    2	&David	&NULL \\
+    3	&David	&NULL \\
+    4	&Dan	&NULL \\
+    5	&John	&106
+  \end{tabular} \\\\
+
+
+
+
+
+\end{document}

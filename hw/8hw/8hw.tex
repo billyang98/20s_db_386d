@@ -1,0 +1,226 @@
+\documentclass[12pt, letterpaper, fleqn]{article}
+\usepackage[letterpaper, margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\graphicspath{ {.} }
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{cancel}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\setlength\parindent{0pt}
+\def\fullouterjoin{\mathbin{\ojoin\mkern0mu\bowtie\mkern3mu\ojoin}}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+%\rhead{Bill Yang}
+%\renewcommand{\headrulewidth}{0pt}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+%    \hbox to 5.78in { {\bf M328K Number Theory} \hfill #2 }
+%       \vspace{4mm}
+%       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+%       \vspace{2mm}
+%       \hbox to 5.78in { {\it #3 \hfill #4} }
+    \hbox to 5.78in { { Bill Yang} \hfill {Due: #2} }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {#3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\ho}[5]{\handout{#1}{#2}{#3}{Instructor: #4}{Homework #1}}
+
+\begin{document}
+  \ho{8}{4/10/20}{CS386D Database Systems}{Daniel Miranker} \\
+
+  \section{Part 1}
+
+  Inserting 5 million sorted rows: $746.5$ seconds. \\
+  \begin{align*}
+    \frac{1.25 \text{Gbytes}}{746.5 \text{seconds}} &=
+    \frac{1.25 \times 2^{30} \text{bytes}}{746.5 \text{seconds}} =
+    \frac{1797960.19 \text{bytes}}{\text{second}} =
+    \frac{1.71 \text{Mbytes}}{\text{second}} \\
+  \end{align*}
+   $ 
+    \frac{1797960.19 \text{bytes}}{\text{second}}$ or $
+    \frac{1.71 \text{Mbytes}}{\text{second}}
+   $
+
+  \section{Part 3}
+
+  \textbf{A}\\
+  \begin{verbatim}
+  select * from employees
+    where employee_position = 'Professor'
+    and 
+    department in ('Computer Science', 'Mathematics')
+  \end{verbatim}
+
+\begin{center}
+\begin{tabular} { c | c | c }
+  last\_name & employee\_position & department \\
+  \hline
+  Miranker                                          &	Professor
+  &	Computer Science                                  \\
+Mok                                               &	Professor
+&	Computer Science                                  \\
+Alcook                                            &	Professor
+&	Mathematics                                       \\
+\end{tabular}
+\end{center}
+
+  \textbf{B} \\
+  \begin{verbatim}
+  select * from employees
+  \end{verbatim}
+
+\begin{center}
+\begin{tabular} { c | c | c | c }
+  last\_name & employee\_position & department & manager\\
+  \hline
+  Fenves                                            &	President
+  &	UT                                              & null  \\
+Goldbart                                          &	Dean
+&	Natural Science                                   &	Fenves
+\\
+Wood                                              &	Dean
+&	Engineering                                       &	Fenves
+\\
+Beckner                                           &	Chairman
+&	Mathematics                                       &	Goldbart
+\\
+Tewfik                                            &	Chairman
+&	Electrical and Computer Engineering               &	Wood
+\\
+Ghosh                                             &	Professor
+&	Electrical and Computer Engineering               &	Tewfik
+\\
+Alcook                                            &	Professor
+&	Mathematics                                       &	Beckner
+\\
+Miranker                                          &	Professor
+&	Computer Science                                & null  \\
+Mok                                               &	Professor
+&	Computer Science                                & null  \\
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+  create table employees (
+    last_name char(50) primary key,
+    employee_position char(50),
+    department char(50),
+    manager char(50) 
+      references employees(last_name)
+      on delete set null 
+  )
+\end{verbatim}
+
+  \textbf{C} \\
+  \begin{verbatim}
+  select * from employees
+  \end{verbatim}
+
+\begin{center}
+\begin{tabular} { c | c | c | c }
+  last\_name & employee\_position & department & manager\\
+  \hline
+  Fenves                                            &	President
+  &	UT                                              & null  \\
+Wood                                              &	Dean
+&	Engineering                                       &	Fenves
+\\
+Tewfik                                            &	Chairman
+&	Electrical and Computer Engineering               &	Wood
+\\
+Ghosh                                             &	Professor
+&	Electrical and Computer Engineering               &	Tewfik
+\\
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+  create table employees (
+    last_name char(50) primary key,
+    employee_position char(50),
+    department char(50),
+    manager char(50) 
+      references employees(last_name)
+      on delete cascade
+  )
+\end{verbatim}
+
+
+  \textbf{D} \\
+  \begin{verbatim}
+  select * from employees
+  \end{verbatim}
+
+\begin{center}
+\begin{tabular} { c | c | c | c }
+  last\_name & employee\_position & department & manager\\
+  \hline
+  Fenves                                            &	President
+  &	UT                                              & null  \\
+Goldbart                                          &	Dean
+&	Natural Science                                   &	Fenves
+\\
+Wood                                              &	Dean
+&	Engineering                                       &	Fenves
+\\
+Beckner                                           &	Chairman
+&	Mathematics                                       &	Goldbart
+\\
+Tewfik                                            &	Chairman
+&	Electrical and Computer Engineering               &	Wood
+\\
+Ghosh                                             &	Professor
+&	Electrical and Computer Engineering               &	Tewfik
+\\
+Alcook                                            &	Professor
+&	Mathematics                                       &	Beckner
+\\
+Smith                                             &	Chairman
+&	Computer Science                                  &	Goldbart
+\\
+Miranker                                          &	Professor
+&	Computer Science                                  &	Smith
+\\
+Mok                                               &	Professor
+&	Computer Science                                  &	Smith
+\\
+\end{tabular}
+\end{center}
+
+\begin{verbatim}
+  create table employees (
+    last_name char(50) primary key,
+    employee_position char(50),
+    department char(50),
+    manager char(50)
+      references employees(last_name)
+      on delete cascade
+      on update cascade
+  )
+\end{verbatim}
+\end{document}

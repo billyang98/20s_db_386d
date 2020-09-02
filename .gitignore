@@ -1,0 +1,11 @@
+*DS_STORE
+*.log
+*.aux
+*.fls
+*.out
+*.fdb_latexmk
+*.swp
+*.swo
+*.ipynb_checkpoints
+*.dvi
+*__pycache__*
